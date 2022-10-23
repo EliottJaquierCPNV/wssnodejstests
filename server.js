@@ -27,6 +27,7 @@ wss.on('connection', (ws) => {
     clients.set(ws, metadata);
 
     ws.on('message', (messageAsString) => {
+        //console.log("Message : "+messageAsString);
         /*const message = JSON.parse(messageAsString);
         const metadata = clients.get(ws);
   
