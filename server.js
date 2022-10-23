@@ -4,23 +4,38 @@ const wss = new WebSocket.Server({ port: port });
 
 const clients = new Map();
 
+/*class Message {
+    constructor(from,type,content) {
+        this.from = from;
+        this.type = type;
+        this.content = content;
+    }
+}
+
+class MessageReception {
+    constructor(to,type,content) {
+        this.from = from;
+        this.type = type;
+        this.content = content;
+    }
+}*/
+
 wss.on('connection', (ws) => {
     const id = uuidv4();
-    const color = Math.floor(Math.random() * 360);
-    const metadata = { id, color };
+    const metadata = { id: id };
 
     clients.set(ws, metadata);
 
     ws.on('message', (messageAsString) => {
-        const message = JSON.parse(messageAsString);
+        /*const message = JSON.parse(messageAsString);
         const metadata = clients.get(ws);
   
         message.sender = metadata.id;
         message.color = metadata.color;
-        const outbound = JSON.stringify(message);
+        const outbound = JSON.stringify(message);*/
 
         [...clients.keys()].forEach((client) => {
-          client.send(outbound);
+          client.send(messageAsString);
         });
     });
     ws.on("close", () => {
