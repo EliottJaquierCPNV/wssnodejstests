@@ -17,7 +17,7 @@ const ws = new WebSocket('wss://live-node-websockets.herokuapp.com/');
 //100 * 100ms (10 HZ) = 1000 requests / second
 
 //If set to 0, it will resend a ping after the server has not responded to the previous ping
-const contactServerEveryMillis = 0;
+const contactServerEveryMillis = 30;
 
 const uuid = uuidv4();
 var lastTimePing = Date.now();
@@ -32,6 +32,7 @@ ws.on('open', function open() {
 });
 
 ws.on('message', function message(data) {
+  console.log("Message : "+data);
   if(data.toString().split(";")[0] == "PING" && data.toString().split(";")[1] == uuid){
     console.log("PONG FROM SERVER IN "+(Date.now()-lastTimePing)+"ms");
     if(contactServerEveryMillis == 0){
